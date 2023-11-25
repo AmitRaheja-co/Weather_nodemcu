@@ -1,13 +1,13 @@
 const express = require("express");
 const info = require("./models/info");
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const apiKey = '3701c28b1ac01a9e76bb88a56ee8201b';
 // const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 app.set('views', './');
