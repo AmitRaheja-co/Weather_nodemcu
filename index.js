@@ -12,13 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', './');
 
-const port = 3000;
+const port = 7000;
 
 
 
 app.get("/", async (req, res) => {
     const Info = await info.find({});
-    res.render('main', { info: Info });
+    console.log(Info);
+    res.render('main', { info: Info[0] });
 });
 
 
