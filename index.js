@@ -61,15 +61,26 @@ app.post("/", async (req, res) => {
     try {
         await INFO.deleteMany({}); // Delete all documents in the info collection
         console.log('Deleted all info');
-        const Weather = await (await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&appid=${apiKey}&units=metric`)).json();
-        console.log(Weather);
-        const new_info = await INFO.create({
-            city: req.body.city,
-            weather: Weather.main.temp
+        const Weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${req.body.city}&appid=${apiKey}&units=metric`);
+        if (Weather.ok) {
+            const result = await Weather.json();
+            console.log(Weather);
+            const new_info = await INFO.create({
+                city: req.body.city,
+                weather: result.main.temp
+            });
+            console.log(new_info);
+            console.log("changed city");
+            return res.render('main', { info: new_info });
+        }
+        console.log("No entry in database");
+        res.render('main', {
+            info: {
+                city: "enter city",
+                weather: "NULL"
+            }
         });
-        console.log(new_info);
-        console.log("changed city");
-        res.render('main', { info: new_info });
+
     }
     catch (err) {
         console.log('Error in adding info: ', err);
